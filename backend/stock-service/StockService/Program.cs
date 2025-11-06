@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StockService.Data;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://localhost:5000");
 
 builder.Services.AddControllers();
@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 builder.Services.AddDbContext<StockDbContext>(options => options.UseSqlite("Data Source=stock.db"));
 
-WebApplication app = builder.Build();  
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -32,7 +32,7 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
-using (IServiceScope scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<StockDbContext>();
     context.Database.EnsureCreated();

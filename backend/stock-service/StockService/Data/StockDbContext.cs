@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using StockService.Models;
 
-namespace StockService.Data 
+namespace StockService.Data;
+
+public class StockDbContext : DbContext
 {
-    public class StockDbContext : DbContext
-   {
     public DbSet<Product> Products { get; set; }
 
     public StockDbContext(DbContextOptions<StockDbContext> options) : base(options) { }
@@ -13,5 +13,4 @@ namespace StockService.Data
     {
         modelBuilder.Entity<Product>().HasKey(p => p.Id);
     }
-}
 }

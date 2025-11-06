@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StockService.Data;
 using StockService.Models;
-
+using StockService.Data;
 namespace StockService.Controllers;
 
 [ApiController]
@@ -44,20 +43,9 @@ public class ProductsController : ControllerBase
     {
         var product = await _context.Products.FindAsync(id);
         if (product == null) return NotFound();
-        if (product.Balance < subtractQuantity) return BadRequest("Insufficient stock balance");
+        if (product.Balance < subtractQuantity) return BadRequest("Insufficient balance");
 
         product.Balance -= subtractQuantity;
-        await _context.SaveChangesAsync();
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProduct(Guid id)
-    {
-        var product = await _context.Products.FindAsync(id);
-        if (product == null) return NotFound();
-
-        _context.Products.Remove(product);
         await _context.SaveChangesAsync();
         return NoContent();
     }

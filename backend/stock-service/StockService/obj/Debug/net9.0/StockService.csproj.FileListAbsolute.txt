@@ -1,0 +1,9 @@
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.csproj.AssemblyReference.cache
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.AssemblyInfoInputs.cache
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.AssemblyInfo.cs
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.csproj.CoreCompileInputs.cache
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.MvcApplicationPartsAssemblyInfo.cs
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.MvcApplicationPartsAssemblyInfo.cache
+C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.sourcelink.json

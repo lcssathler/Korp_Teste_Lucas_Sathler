@@ -18,10 +18,10 @@ public class Product
 
     public Guid Id { get; private set; }
     
-    [Required(ErrorMessage = "Code is required")]
+    [Required(ErrorMessage = "Code can't be null")]
     public string Code { get; private set; }
     
-    [Required(ErrorMessage = "Description is required")]
+    [Required(ErrorMessage = "Description can't be null")]
     public string Description { get; private set; }
     
     [Range(0, int.MaxValue, ErrorMessage = "Balance must be greater than or equal to 0")]

@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 builder.Services.AddDbContext<StockDbContext>(options => options.UseSqlite("Data Source=stock.db"));
 
-var app = builder.Build();  
+WebApplication app = builder.Build();  
 
 if (app.Environment.IsDevelopment())
 {
@@ -32,7 +32,7 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<StockDbContext>();
     context.Database.EnsureCreated();

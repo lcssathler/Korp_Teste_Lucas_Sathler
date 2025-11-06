@@ -9,11 +9,6 @@ C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backen
 C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\StockService\obj\Debug\net9.0\StockService.sourcelink.json
 C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\appsettings.Development.json
 C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\appsettings.json
-C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService\appsettings.Development.json
-C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService\appsettings.json
-C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService\obj\project.assets.json
-C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService\obj\StockService.csproj.nuget.dgspec.json
-C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService\Properties\launchSettings.json
 C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService.staticwebassets.endpoints.json
 C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService.exe
 C:\Estudos de programação\Projetos\Sistema de Emissão de Notas Fiscais\backend\stock-service\bin\Debug\net9.0\StockService.deps.json

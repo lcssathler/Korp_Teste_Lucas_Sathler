@@ -16,14 +16,14 @@ public class Product
         Balance = balance;
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
     
     [Required(ErrorMessage = "Code can't be null")]
-    public string Code { get; private set; }
+    public string Code { get; set; }
     
     [Required(ErrorMessage = "Description can't be null")]
-    public string Description { get; private set; }
+    public string Description { get; set; }
     
     [Range(0, int.MaxValue, ErrorMessage = "Balance must be greater than or equal to 0")]
-    public int Balance { get; private set; }
+    public int Balance { get; set; }
 }

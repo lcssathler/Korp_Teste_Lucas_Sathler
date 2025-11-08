@@ -1,14 +1,10 @@
 import { Routes } from '@angular/router';
+import { INVOICE_ROUTES } from './features/invoice/invoice.routes';
+import { PRODUCT_ROUTES } from './features/product/product.routes';
 
 
 export const routes: Routes = [
   { path: '', redirectTo: 'products', pathMatch: 'full' },
-  {
-    path: 'products',
-    loadChildren: () => import('./features/product/product.routes').then(r => r.PRODUCT_ROUTES)
-  },
-  {
-    path: 'invoices',
-    loadChildren: () => import('./features/invoice/invoice.routes').then(r => r.INVOICE_ROUTES)
-  }
+  { path: 'products', children: PRODUCT_ROUTES },
+  { path: 'invoices', children: INVOICE_ROUTES }
 ];

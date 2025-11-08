@@ -4,6 +4,5 @@ import { ProductListComponent } from './product-list/product-list.component';
 
 export const PRODUCT_ROUTES: Routes = [
   { path: '', component: ProductListComponent },
-  { path: 'new', component: ProductFormComponent },
-  { path: ':id/edit', component: ProductFormComponent }
+  { path: 'new', component: ProductFormComponent }
 ];

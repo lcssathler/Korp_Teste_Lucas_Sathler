@@ -1,4 +1,108 @@
-table {
-  width: 100%;
-  margin-top: 20px;
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-height: 100vh;
+  background-color: #fff;
+  padding: 2rem;
 }
+
+.product-container {
+  width: 90%;
+  max-width: 1000px;
+  background-color: #4f5a5e91;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 50px auto 0 auto;
+  height: fit-content;
+}
+
+.page-title {
+  text-align: center;
+  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  
+}
+
+.new-product-button {
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #2ccb69 !important;
+  color: #000 !important;
+  border: 2px solid #121312;
+  cursor: pointer;
+}
+
+.new-product-button:hover {
+  background-color: #26c563 !important;
+  color: #fff !important;
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.table-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table ::ng-deep .mat-mdc-header-row,
+.product-table ::ng-deep .mat-mdc-row {
+  width: 100%;
+  background-color: #f3f3f3;
+  color: #0e0e0e;
+  font-weight: 500;
+}
+
+.product-table ::ng-deep .mat-mdc-header-cell,
+.product-table ::ng-deep .mat-mdc-cell {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.product-table ::ng-deep .mat-mdc-header-cell {
+  font-weight: 400;
+  background-color: #2ccb69;
+  color: white;
+  border-bottom: 2px solid #ffffff;
+}
+
+.product-table ::ng-deep .mat-mdc-cell {
+  border-bottom: 1px solid #ddd;
+}
+
+.product-table ::ng-deep .mat-mdc-row:hover {
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .product-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .product-table ::ng-deep .mat-mdc-header-cell,
+  .product-table ::ng-deep .mat-mdc-cell {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+}
+

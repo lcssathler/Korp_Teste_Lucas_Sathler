@@ -1,0 +1,112 @@
+.invoice-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.invoice-details-container h2 {
+  font-weight: 600;
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 1.5rem;
+}
+
+.invoice-info {
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  max-width:100%;
+  margin-bottom: 2rem;
+}
+
+.invoice-info p {
+  font-size: 1.1rem;
+  color: #444;
+  margin: 0.5rem 0;
+}
+
+.invoice-info strong {
+  color: #000;
+}
+
+.invoice-table-wrapper {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 2rem;
+}
+
+.invoice-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center; 
+}
+
+.invoice-details-table th {
+  background-color: #444444;
+  padding: 0.75rem;
+  border-bottom: 2px solid #ccc;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center; 
+  color: #fff;
+}
+
+.invoice-details-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  background-color: rgb(231 231 194 / 61%);
+}
+
+.invoice-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  gap: 20px;
+}
+
+.invoice-actions button {
+    padding: 0.6rem 1.4rem;
+    font-size: 1rem;
+}
+
+.invoice-actions button:hover {
+    background-color: #555555 !important;
+    transform: scale(1.1);
+    transition: transform 0.1s ease-in;
+    border-color: #dd0c0c !important;
+}
+
+.loading-spinner {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .invoice-info,
+  .invoice-table-wrapper {
+    padding: 1rem;
+  }
+
+  .invoice-details-table th,
+  .invoice-details-table td {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .invoice-actions button {
+    width: 100%;
+  }
+}

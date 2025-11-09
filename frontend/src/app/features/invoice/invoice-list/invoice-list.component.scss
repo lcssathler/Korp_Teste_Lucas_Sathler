@@ -1,0 +1,119 @@
+.page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 2rem;
+}
+
+.invoice-container {
+    width: 90%;
+    max-width: 1000px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px #0000001a;
+    padding: 2rem;
+}
+
+.page-title {
+    text-align: center;
+    text-transform: uppercase;
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-top: 30px;
+    gap: 30px;
+}
+
+.new-invoice-button {
+    padding: 0.6rem 1.4rem;
+    font-size: 1rem;
+    background-color: #444444 !important;
+}
+
+.new-invoice-button:hover {
+    background-color: #555555 !important;
+    transform: scale(1.1);
+    transition: transform 0.1s ease-in;
+    border-color: #dd0c0c !important;
+}
+
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.invoice-table ::ng-deep .mat-mdc-header-row,
+.invoice-table ::ng-deep .mat-mdc-row {
+    width: 100%;
+}
+
+.invoice-table ::ng-deep .mat-mdc-header-cell,
+.invoice-table ::ng-deep .mat-mdc-cell {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.invoice-table ::ng-deep .mat-mdc-header-cell {
+    font-weight: 400;
+    background-color: #444444;
+    color: white;
+    border-bottom: 2px solid #000000;
+}
+
+.invoice-table ::ng-deep .mat-mdc-cell {
+    border-bottom: 1px solid #ddd;
+    background-color: #e7e7c29c;
+}
+
+.invoice-table ::ng-deep .mat-mdc-row:hover {
+    background-color: #44444427;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.details-link {
+    text-transform: none;
+    color: #fff !important;
+    font-weight: 400;
+    background-color: #444444;
+    font-size: 14px;
+}
+
+.details-link:hover {
+    color: #fff;
+    background-color: #222222;
+    transform: scale(1.05);
+    transition: transform 0.1s ease-in;
+}
+
+@media (max-width: 768px) {
+    .invoice-container {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .invoice-table ::ng-deep .mat-mdc-header-cell,
+    .invoice-table ::ng-deep .mat-mdc-cell {
+        font-size: 0.9rem;
+        padding: 0.7rem;
+    }
+
+    .details-link {
+        font-size: 0.9rem;
+    }
+}

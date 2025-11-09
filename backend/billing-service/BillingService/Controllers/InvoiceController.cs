@@ -23,7 +23,7 @@ public class InvoiceController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices()
     {
-        return await _context.Invoices.Include(i => i.Items).ToListAsync();
+        return await _context.Invoices.Include(i => i.Items).OrderBy(i => i.Number).ToListAsync();
     }
 
     [HttpGet("{id}")]
@@ -63,14 +63,11 @@ public class InvoiceController : ControllerBase
         {
             foreach (var item in invoice.Items)
             {
-                Console.WriteLine($"[PRINT] Updating product {item.ProductId} - Subtracting {item.Quantity}");
-
                 var response = await client.PutAsJsonAsync($"api/products/{item.ProductId}/update-balance", item.Quantity);
 
                 if (!response.IsSuccessStatusCode)
                 {
                     var error = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"[ERRO] {response.StatusCode}: {error}");
                     return StatusCode((int)response.StatusCode, error);
                 }
             }
@@ -78,14 +75,12 @@ public class InvoiceController : ControllerBase
             invoice.Status = InvoiceStatus.Closed;
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
-            Console.WriteLine("[SUCESSO] Nota impressa e saldo atualizado.");
             return NoContent();
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            Console.WriteLine($"[FALHA] {ex.Message}");
-            return StatusCode(500, "Erro ao processar impressão.");
+            return StatusCode(500, "Error printing invoice.");
         }
     }
 }

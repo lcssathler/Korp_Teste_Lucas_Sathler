@@ -51,8 +51,8 @@
 .submit-button {
   padding: 0.7rem 1.5rem;
   font-size: 0.9rem;
-  background-color: #c2f3b8 !important;
-  color: #000 !important;
+  background-color: #444444 !important;
+  color: #fff !important;
   border: 1px solid #121312;
   border-radius: 5px;
   box-shadow: none;
@@ -61,10 +61,17 @@
 }
 
 .submit-button:hover {
-  background-color: #26c563 !important;
+  background-color: #666666 !important;
   color: #fff !important;
   transform: scale(1.1);
   transition: transform 0.2s ease-in-out;
+}
+
+.back-button {
+  display: block;
+  margin: 15px auto; 
+  text-align: center;
+  line-height: 0;
 }
 
 .product-form ::ng-deep .mat-mdc-form-field {

@@ -1,1 +1,42 @@
-<p>invoice-details works!</p>
+<div class="invoice-details-container">
+  <h2>Invoice details</h2>
+
+ 
+
+  <div class="invoice-table-wrapper">
+     <div class="invoice-info">
+    <p><strong>Number:</strong> {{ invoice?.number }}</p>
+    <p><strong>Status:</strong> {{ invoice?.status }}</p>
+  </div>
+
+    <table class="invoice-details-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of invoice?.items">
+          <td>{{ getProductName(item.productId) }}</td>
+          <td>{{ item.quantity }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="invoice-actions">
+    <button mat-raised-button color="primary" [disabled]="printing || invoice?.status !== 'Open'" (click)="print()">
+      <mat-spinner *ngIf="printing" diameter="20"></mat-spinner>
+      <span *ngIf="!printing">Print Invoice</span>
+    </button>
+
+    <button mat-raised-button color="primary" [routerLink]="['/invoices']">  
+        View invoices
+    </button>
+  </div>
+
+  <div class="loading-spinner" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+</div>

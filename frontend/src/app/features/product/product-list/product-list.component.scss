@@ -10,7 +10,7 @@
 .product-container {
   width: 90%;
   max-width: 1000px;
-  background-color: #4f5a5e91;
+  background-color: #4f5a5e44;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 2rem;
@@ -42,16 +42,16 @@
   padding: 0.6rem 1.4rem;
   font-size: 1rem;
   font-weight: 500;
-  background-color: #3de77e !important;
-  color: #000 !important;
+  background-color: #444444 !important;
+  color: #fff !important;
   border: 2px solid #121312;
-  border-radius: 15px;
+  border-radius: 5px;
   box-shadow: none;
   cursor: pointer;
 }
 
 .new-product-button:hover {
-  background-color: #26c563 !important;
+  background-color: #666666 !important;
   color: #fff !important;
   transform: scale(1.1);
   transition: transform 0.2s ease-in-out;
@@ -85,7 +85,7 @@
 
 .product-table ::ng-deep .mat-mdc-header-cell {
   font-weight: 400;
-  background-color: #2ccb69;
+  background-color: #444444;
   color: white;
   border-bottom: 2px solid #ffffff;
 }

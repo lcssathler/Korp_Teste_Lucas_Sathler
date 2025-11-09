@@ -1,11 +1,64 @@
 import { Component } from '@angular/core';
-
+import { OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { InvoiceService } from '../../../services/invoice.service';
+import { ProductService } from '../../../services/product.service';
+import { Invoice } from '../../../models/invoice.model';
+import { Product } from '../../../models/product.model';
+import { finalize, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatTable } from "@angular/material/table";
 @Component({
-  selector: 'app-invoice-details',
-  imports: [],
+  selector: 'app-invoice-detail',
+  standalone: true,
+  imports: [CommonModule, MatProgressSpinnerModule, MatButtonModule, MatProgressSpinner, MatTable, RouterLink],
   templateUrl: './invoice-details.component.html',
-  styleUrl: './invoice-details.component.scss'
+  styleUrls: ['./invoice-details.component.scss']
 })
-export class InvoiceDetailsComponent {
+export class InvoiceDetailComponent implements OnInit {
+  invoice: Invoice | null = null;
+  products: Product[] = [];
+  loading = true;
+  printing = false;
 
+  constructor(private route: ActivatedRoute, private invoiceService: InvoiceService, private productService: ProductService) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.invoiceService.getById(id).subscribe(invoice => {
+        this.invoice = invoice;
+        this.productService.getAll().subscribe(products => {
+          this.products = products;
+          this.loading = false;
+        });
+      });
+    }
+  }
+
+  print(): void {
+    if (this.invoice) {
+      this.printing = true;
+      this.invoiceService.print(this.invoice.id).pipe(
+        finalize(() => this.printing = false),
+        catchError(err => {
+          console.error('Error printing invoice', err);
+          return of(null);
+        })
+      ).subscribe(() => {
+        if (this.invoice) {
+          this.invoice.status = 'Closed';
+        }
+      });
+    }
+  }
+
+  getProductName(productId: string): string {
+    const product = this.products.find(p => p.id === productId);
+    return product ? product.description : 'Desconhecido';
+  }
 }

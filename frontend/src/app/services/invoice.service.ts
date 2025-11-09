@@ -5,7 +5,7 @@ import { Invoice, InvoiceItem } from '../models/invoice.model';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceService {
-  private apiUrl = 'http://localhost:5001/api/invoices';
+  private apiUrl = 'http://localhost:5001/api/invoice';
 
   constructor(private http: HttpClient) {}
 

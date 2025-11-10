@@ -26,14 +26,18 @@
     <button mat-raised-button color="primary" [disabled]="printing || invoice?.status !== 'Open'" (click)="print()">
       <mat-spinner *ngIf="printing" diameter="20"></mat-spinner>
       <span *ngIf="!printing">Print Invoice</span>
-    </button>
+   </button>
 
-    <button mat-raised-button color="primary" [routerLink]="['/invoices']">  
+    <button mat-raised-button color="primary" [routerLink]="['/invoices']" [disabled]="printing">
         View invoices
     </button>
   </div>
 
+  <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+
   <div class="loading-spinner" *ngIf="loading">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
+
 </div>

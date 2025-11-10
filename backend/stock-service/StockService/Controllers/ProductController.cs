@@ -9,6 +9,7 @@ namespace StockService.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly StockDbContext _context;
+    private static readonly object _lock = new object();
 
     public ProductsController(StockDbContext context)
     {
@@ -29,6 +30,22 @@ public class ProductsController : ControllerBase
         return product;
     }
 
+    [HttpGet("{id}/check-balance")]
+    public async Task<IActionResult> CheckBalance(Guid id, [FromQuery] int quantity)
+    {
+        Product? product = await _context.Products.FindAsync(id);
+        if (product == null) return NotFound();
+
+        lock (_lock)
+        { 
+            if (product.Balance < quantity)
+            {
+                return BadRequest("Insufficient balance");
+            }
+            return Ok(); 
+        }
+    }
+
     [HttpPost]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
@@ -43,7 +60,11 @@ public class ProductsController : ControllerBase
     {
         var product = await _context.Products.FindAsync(id);
         if (product == null) return NotFound();
-        if (product.Balance < subtractQuantity) return BadRequest("Insufficient balance");
+
+        if (product.Balance < subtractQuantity)
+        {
+            return BadRequest("Insufficient balance");
+        }
 
         product.Balance -= subtractQuantity;
         await _context.SaveChangesAsync();

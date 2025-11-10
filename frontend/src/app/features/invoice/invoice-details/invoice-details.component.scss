@@ -48,7 +48,7 @@
 .invoice-details-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: center; 
+  text-align: center;
 }
 
 .invoice-details-table th {
@@ -57,7 +57,7 @@
   border-bottom: 2px solid #ccc;
   font-weight: 500;
   font-size: 1rem;
-  text-align: center; 
+  text-align: center;
   color: #fff;
 }
 
@@ -92,6 +92,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.error-msg {
+  margin-top: 2rem;
+  color: #d32f2f;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+::ng-deep .error-snack {
+  background: #d32f2f;
+  color: white;
 }
 
 @media (max-width: 768px) {

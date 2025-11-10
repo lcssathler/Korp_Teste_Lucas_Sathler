@@ -5,9 +5,9 @@ import { Invoice, InvoiceItem } from '../models/invoice.model';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceService {
-  private apiUrl = 'http://localhost:5001/api/invoice';
+  private readonly apiUrl = 'http://localhost:5001/api/invoice';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getAll(): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(this.apiUrl);

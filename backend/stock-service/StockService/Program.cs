@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StockService.Data;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://localhost:5000");
 

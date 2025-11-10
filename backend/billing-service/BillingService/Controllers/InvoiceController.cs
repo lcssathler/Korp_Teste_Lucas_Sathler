@@ -37,12 +37,19 @@ public class InvoiceController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Invoice>> CreateInvoice(Invoice invoice)
     {
-        invoice.Number = (_context.Invoices.Max(i => (int?)i.Number) ?? 0) + 1;
-        if (invoice.Items == null || !invoice.Items.Any())
+        var client = _httpClientFactory.CreateClient("StockClient");
+
+        foreach (var item in invoice.Items)
         {
-            return BadRequest("Invoice must have at least one item");
+            var response = await client.GetAsync($"api/products/{item.ProductId}/check-balance?quantity={item.Quantity}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(await response.Content.ReadAsStringAsync());
+            }
         }
-        Console.WriteLine(invoice.Items.ToList().Count);
+
+        invoice.Number = (_context.Invoices.Max(i => (int?)i.Number) ?? 0) + 1;
+        invoice.Status = InvoiceStatus.Open;
         _context.Invoices.Add(invoice);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetInvoice), new { id = invoice.Id }, invoice);
@@ -51,19 +58,20 @@ public class InvoiceController : ControllerBase
     [HttpPost("{id}/print")]
     public async Task<IActionResult> PrintInvoice(Guid id)
     {
-        var invoice = await _context.Invoices.FindAsync(id);
+        Invoice? invoice = await _context.Invoices.FindAsync(id);
         if (invoice == null) return NotFound();
         await _context.Entry(invoice).Collection(i => i.Items).LoadAsync();
         if (invoice.Status != InvoiceStatus.Open) return BadRequest("Invoice is not open");
 
-        var client = _httpClientFactory.CreateClient("StockClient");
+        HttpClient? client = _httpClientFactory.CreateClient("StockClient");
         using var transaction = await _context.Database.BeginTransactionAsync();
 
         try
         {
+            await Task.Delay(3000);
             foreach (var item in invoice.Items)
             {
-                var response = await client.PutAsJsonAsync($"api/products/{item.ProductId}/update-balance", item.Quantity);
+                HttpResponseMessage? response = await client.PutAsJsonAsync($"api/products/{item.ProductId}/update-balance", item.Quantity);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -77,10 +85,10 @@ public class InvoiceController : ControllerBase
             await transaction.CommitAsync();
             return NoContent();
         }
-        catch (Exception ex)
+        catch
         {
             await transaction.RollbackAsync();
-            return StatusCode(500, "Error printing invoice.");
+            throw;
         }
     }
 }

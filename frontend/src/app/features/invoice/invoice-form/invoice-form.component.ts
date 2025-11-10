@@ -1,59 +1,5 @@
-// import { Component } from '@angular/core';
-// import { OnInit } from '@angular/core';
-// import { FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
-// import { CommonModule } from '@angular/common';
-// import { Router } from '@angular/router';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatSelectModule } from '@angular/material/select';
-// import { MatButtonModule } from '@angular/material/button';
-// import { InvoiceService } from '../../../services/invoice.service';
-// import { ProductService } from '../../../services/product.service';
-// import { Product } from '../../../models/product.model';
-
-// @Component({
-//   selector: 'app-invoice-form',
-//   standalone: true,
-//   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
-//   templateUrl: './invoice-form.component.html',
-//   styleUrls: ['./invoice-form.component.scss']
-// })
-// export class InvoiceFormComponent implements OnInit {
-//   fb: FormBuilder = new FormBuilder();
-//   products: Product[] = [];
-//   invoiceForm = this.fb.group({
-//     items: this.fb.array([])
-//   });
-
-//   get items() { return this.invoiceForm.get('items') as FormArray; }
-
-//   constructor(private invoiceService: InvoiceService, private productService: ProductService, private router: Router) {}
-
-//   ngOnInit(): void {
-//     this.productService.getAll().subscribe(products => this.products = products);
-//     this.addItem();
-//   }
-
-//   addItem(): void {
-//     this.items.push(this.fb.group({
-//       productId: ['', Validators.required],
-//       quantity: [1, [Validators.required, Validators.min(1)]]
-//     }));
-//   }
-
-//   removeItem(index: number): void {
-//     this.items.removeAt(index);
-//   }
-
-//   onSubmit(): void {
-//     if (this.invoiceForm.valid) {
-//       this.invoiceService.create(this.items.value).subscribe(invoice => this.router.navigate(['/invoices', invoice.id]));
-//     } 
-//   }
-// }
-
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators, ReactiveFormsModule, ValidationErrors, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -80,7 +26,7 @@ import { Product } from '../../../models/product.model';
     MatIconModule,
     MatProgressSpinnerModule,
     RouterLink
-],
+  ],
   templateUrl: './invoice-form.component.html',
   styleUrls: ['./invoice-form.component.scss']
 })
@@ -91,9 +37,9 @@ export class InvoiceFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private invoiceService: InvoiceService,
-    private productService: ProductService,
-    private router: Router
+    private readonly invoiceService: InvoiceService,
+    private readonly productService: ProductService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -110,10 +56,15 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   private createItem(): FormGroup {
-    return this.fb.group({
+    const group = this.fb.group({
       productId: ['', Validators.required],
-      quantity: [null, [Validators.required, Validators.min(1)]]
+      quantity: [null, [Validators.required, Validators.min(1), this.stockValidator.bind(this)]]
     });
+
+    group.get('productId')?.valueChanges.subscribe(() => group.get('quantity')?.updateValueAndValidity());
+    group.get('quantity')?.valueChanges.subscribe(() => group.get('quantity')?.updateValueAndValidity());
+
+    return group;
   }
 
   private loadProducts(): void {
@@ -135,6 +86,16 @@ export class InvoiceFormComponent implements OnInit {
 
   removeItem(index: number): void {
     this.items.removeAt(index);
+  }
+
+  stockValidator(control: AbstractControl): ValidationErrors | null {
+    const quantity = control.value as number;
+    const productId = control.parent?.get('productId')?.value as string;
+    const product = this.products.find(p => p.id === productId);
+    if (product && quantity > product.balance) {
+      return { insufficientStock: { max: product.balance } };
+    }
+    return null;
   }
 
   onSubmit(): void {

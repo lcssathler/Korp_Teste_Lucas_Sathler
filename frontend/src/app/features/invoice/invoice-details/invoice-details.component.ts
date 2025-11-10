@@ -11,11 +11,10 @@ import { Product } from '../../../models/product.model';
 import { finalize, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatTable } from "@angular/material/table";
 @Component({
   selector: 'app-invoice-detail',
   standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule, MatButtonModule, MatProgressSpinner, MatTable, RouterLink],
+  imports: [CommonModule, MatProgressSpinnerModule, MatButtonModule, MatProgressSpinner, RouterLink],
   templateUrl: './invoice-details.component.html',
   styleUrls: ['./invoice-details.component.scss']
 })
@@ -59,6 +58,6 @@ export class InvoiceDetailComponent implements OnInit {
 
   getProductName(productId: string): string {
     const product = this.products.find(p => p.id === productId);
-    return product ? product.description : 'Desconhecido';
+    return product ? product.description : "Can't find product description";
   }
 }

@@ -51,7 +51,6 @@
 .submit-button {
   padding: 0.7rem 1.5rem;
   font-size: 0.9rem;
-  background-color: #444444 !important;
   color: #fff !important;
   border: 1px solid #121312;
   border-radius: 5px;
@@ -62,7 +61,6 @@
 
 .submit-button:hover {
   background-color: #666666 !important;
-  color: #fff !important;
   transform: scale(1.1);
   transition: transform 0.2s ease-in-out;
 }
@@ -72,6 +70,7 @@
   margin: 15px auto; 
   text-align: center;
   line-height: 0;
+  background-color: #444444 !important;
 }
 
 .product-form ::ng-deep .mat-mdc-form-field {
@@ -90,7 +89,8 @@
 }
 
 .product-form ::ng-deep .mat-mdc-form-field-subscript-wrapper{
-  display: none;
+  // display: none;
+  background-color: #fff;
 }
 
 @media (max-width: 600px) {
@@ -106,4 +106,14 @@
   .submit-button {
     width: 100%;
   }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }

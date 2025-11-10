@@ -21,7 +21,7 @@ export class ProductFormComponent {
   productForm = this.fb.group({
     code: ['', Validators.required],
     description: ['', Validators.required],
-    balance: [0, [Validators.required, Validators.min(0)]],
+    balance: [null, [Validators.required, Validators.min(0)]],
   });
 
   constructor(

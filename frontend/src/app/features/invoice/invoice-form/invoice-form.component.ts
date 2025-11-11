@@ -111,7 +111,7 @@ export class InvoiceFormComponent implements OnInit {
         this.router.navigate(['/invoices', invoice.id]);
       },
       error: (err) => {
-        console.error('Erro ao criar invoice:', err);
+        console.error('Error creating invoice:', err);
       }
     });
   }

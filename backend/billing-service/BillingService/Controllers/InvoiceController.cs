@@ -91,4 +91,25 @@ public class InvoiceController : ControllerBase
             throw;
         }
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> CancelInvoice(Guid id)
+    {
+        var invoice = await _context.Invoices.Include(i => i.Items).FirstOrDefaultAsync(i => i.Id == id);
+        if (invoice == null) return NotFound();
+
+        var client = _httpClientFactory.CreateClient("StockClient");
+
+        if (invoice.Status == InvoiceStatus.Closed)
+        {
+            foreach (var item in invoice.Items)
+            {
+                HttpResponseMessage? response = await client.PutAsJsonAsync($"api/products/{item.ProductId}/add-balance", item.Quantity);
+                response.EnsureSuccessStatusCode();
+            }
+        }
+        _context.Invoices.Remove(invoice);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 }

@@ -37,12 +37,12 @@ public class ProductsController : ControllerBase
         if (product == null) return NotFound();
 
         lock (_lock)
-        { 
+        {
             if (product.Balance < quantity)
             {
                 return BadRequest("Insufficient balance");
             }
-            return Ok(); 
+            return Ok();
         }
     }
 
@@ -67,6 +67,17 @@ public class ProductsController : ControllerBase
         }
 
         product.Balance -= subtractQuantity;
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    [HttpPut("{id}/add-balance")]
+    public async Task<IActionResult> AddBalance(Guid id, [FromBody] int addQuantity)
+    {
+        Product? product = await _context.Products.FindAsync(id);
+        if (product == null) return NotFound("Product not Found");
+
+        product.Balance += addQuantity;
         await _context.SaveChangesAsync();
         return NoContent();
     }

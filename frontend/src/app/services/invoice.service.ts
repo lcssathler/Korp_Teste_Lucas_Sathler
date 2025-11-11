@@ -24,4 +24,9 @@ export class InvoiceService {
   print(id: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${id}/print`, {});
   }
+
+  cancel(id: string): Observable<void> {
+    console
+   return this.http.delete<void>(`${this.apiUrl}/${id}`);
+}
 }

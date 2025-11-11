@@ -7,10 +7,11 @@ import { InvoiceService } from '../../../services/invoice.service';
 import { Invoice } from '../../../models/invoice.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'app-invoice-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule],
+  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, ],
   templateUrl: './invoice-list.component.html',
   styleUrls: ['./invoice-list.component.scss']
 })
@@ -18,7 +19,7 @@ export class InvoiceListComponent implements OnInit {
   invoices: Invoice[] = [];
   displayedColumns = ['number', 'status', 'actions'];
 
-  constructor(private readonly invoiceService: InvoiceService, private readonly snackBar: MatSnackBar) {}
+  constructor(private readonly invoiceService: InvoiceService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.invoiceService.getAll().subscribe(invoices => this.invoices = invoices);
@@ -29,11 +30,11 @@ export class InvoiceListComponent implements OnInit {
 
     this.invoiceService.cancel(id).subscribe({
       next: () => {
-        this.snackBar.open(`Invoice ${number} cancelled successfully`, 'OK', { duration: 3000, panelClass: 'success-snack' });
+        this.snackBar.open(`Invoice ${number} cancelled successfully`, 'OK', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: 'success-snack' });
         this.ngOnInit();
       },
       error: (err) => {
-        this.snackBar.open(`Error cancelling invoice ${number}`, 'Close', { duration: 3000, panelClass: 'error-snack' });
+        this.snackBar.open(`Error cancelling invoice ${number}`, 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: 'error-snack' });
         console.error(err);
       }
     });

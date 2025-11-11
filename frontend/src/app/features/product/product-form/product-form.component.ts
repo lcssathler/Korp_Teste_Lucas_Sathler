@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-form',
@@ -25,15 +26,19 @@ export class ProductFormComponent {
   });
 
   constructor(
-    private productService: ProductService,
-    private router: Router
+    private readonly productService: ProductService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar
   ) {}
 
   onSubmit(): void {
     if (this.productForm.valid) {
       this.productService
         .create(this.productForm.value as any)
-        .subscribe(() => this.router.navigate(['/products']));
+        .subscribe(() => {
+          this.snackBar.open(`${this.productForm.value.description} saved successfully`, 'OK', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: 'success-snack' });
+          this.router.navigate(['/products']);
+        });
     }
   }
 }

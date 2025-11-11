@@ -56,7 +56,7 @@ export class InvoiceDetailComponent implements OnInit {
     ).subscribe(result => {
       if (!this.errorMsg) {
         this.invoice!.status = 'Closed';
-        this.snackBar.open('Invoice printed', 'OK', { duration: 3000 });
+        this.snackBar.open('Invoice printed', 'OK', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: 'success-snack' });
         this.productService.getAll().subscribe();
       }
     });

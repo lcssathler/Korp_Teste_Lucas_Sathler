@@ -129,20 +129,6 @@
   background-color: #ff5353;
 }
 
-::ng-deep .success-snack {
-  background-color: #4caf50 !important;
-  .mat-mdc-snack-bar-container {
-    background-color: #4caf50 !important;
-  }
-}
-
-::ng-deep .error-snack {
-  background-color: #f44336 !important;
-  .mat-mdc-snack-bar-container {
-    background-color: #f44336 !important;
-  }
-}
-
 @media (max-width: 768px) {
   .invoice-container {
     width: 95%;

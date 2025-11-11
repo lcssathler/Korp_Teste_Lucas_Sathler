@@ -1,4 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+// src/styles.scss
+@use '@angular/material' as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+  @include mat.snack-bar-overrides((
+    button-color: white,
+    container-color: #27b12c,
+  ));
+}
+
+.success-snack {
+  @include mat.snack-bar-overrides((
+    container-color: #27b12c,
+    button-color: white,
+  ));
+}
+
+.error-snack {
+  @include mat.snack-bar-overrides((
+    container-color: #f44336,
+    button-color: white,
+  ));
+}

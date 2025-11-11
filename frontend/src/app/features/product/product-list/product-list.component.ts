@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { Product } from '../../../models/product.model';
 import { ProductService } from '../../../services/product.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -17,11 +18,22 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   displayedColumns = ['code', 'description', 'balance'];
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.productService
       .getAll()
+      .pipe(
+        catchError((error) => {
+          if (error.status === 0 || error.status >= 500) {
+            this.router.navigate(['/error/server-down']);
+          }
+          return throwError(() => error);
+        })
+      )
       .subscribe((products) => (this.products = products));
   }
 }

@@ -12,11 +12,14 @@ public class InvoiceController : ControllerBase
 {
     private readonly BillingDbContext _context;
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly string _groqApiKey;
+    
 
-    public InvoiceController(BillingDbContext context, IHttpClientFactory httpClientFactory)
+    public InvoiceController(BillingDbContext context, IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         _context = context;
         _httpClientFactory = httpClientFactory;
+        _groqApiKey = configuration["GroqApiKey"];
     }
 
     [HttpGet]
@@ -33,68 +36,9 @@ public class InvoiceController : ControllerBase
         return invoice;
     }
 
-    //     [HttpGet("{id}/summary")]
-    //     public async Task<ActionResult> GenerateSummary(Guid id)
-    //     {
-    //         var invoice = await _context.Invoices
-    //             .Include(i => i.Items)
-    //             .FirstOrDefaultAsync(i => i.Id == id);
-
-    //         if (invoice == null)
-    //             return NotFound();
-
-    //         using var client = new HttpClient();
-    //         client.DefaultRequestHeaders.Add("Authorization", "Bearer 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");
-
-    //         string prompt = $@"
-    // Gere um resumo em formato JSON da nota fiscal abaixo (retorne apenas o objeto JSON, sem marcações como \`\`\`json). 
-    // Campos esperados:
-    // {{
-    //     status: {invoice.Status},
-    //     number: {invoice.Number},
-    //     items: {string.Join(", ", invoice.Items.Select(it => $"{it.Quantity} unity of the product {it.ProductId}"))},
-    //     obs: Um resumo da nota escrito em inglês. Ex: 'The invoice {invoice.Number} has {invoice.Items.Count} products and it is {invoice.Status}.'
-    // }}
-    // Responda apenas com JSON válido (sem explicações, texto, nem markdown, e nem outra chave dentro do json que nao seja compativel com estes campos que te informei).
-    // ";
-
-    //         var body = new
-    //         {
-    //             model = "meta-llama/llama-4-scout-17b-16e-instruct",
-    //             messages = new[]
-    //             {
-    //             new { role = "user", content = prompt }
-    //         }
-    //         };
-
-    //         var response = await client.PostAsJsonAsync("https://api.groq.com/openai/v1/chat/completions", body);
-    //         var responseText = await response.Content.ReadAsStringAsync();
-
-    //         if (!response.IsSuccessStatusCode)
-    //             return BadRequest($"Erro: {response.StatusCode} => {responseText}");
-
-    //         using JsonDocument? doc = JsonDocument.Parse(responseText);
-    //         string? jsonText = doc.RootElement
-    //             .GetProperty("choices")[0]
-    //             .GetProperty("message")
-    //             .GetProperty("content")
-    //             .GetString();
-
-    //         try
-    //         {
-    //             var parsed = JsonDocument.Parse(jsonText!);
-    //             return Ok(parsed.RootElement);
-    //         }
-    //         catch
-    //         {
-    //             return Ok(new { raw = jsonText });
-    //         }
-    //     }
-
     [HttpGet("{id}/summary")]
     public async Task<ActionResult<string>> GenerateSummary(Guid id)
     {
-        // 🔹 Busca a fatura no banco
         var invoice = await _context.Invoices
             .Include(i => i.Items)
             .FirstOrDefaultAsync(i => i.Id == id);
@@ -102,7 +46,6 @@ public class InvoiceController : ControllerBase
         if (invoice == null)
             return NotFound("Invoice not found.");
 
-        // 🔹 Monta o prompt (criativo, em inglês, sem nomes de produto)
         string prompt = $@"
 You are an assistant that summarizes invoices in a clear and friendly way.
 Generate a short English summary for invoice #{invoice.Number}.
@@ -117,7 +60,7 @@ Avoid technical data or IDs. Summarize as if you’re describing the invoice to 
 End with a brief remark about the invoice’s current status (for example, whether it’s open or closed).";
 
         using var client = new HttpClient();
-        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + "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");
+        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_groqApiKey}");
 
         var requestBody = new
         {

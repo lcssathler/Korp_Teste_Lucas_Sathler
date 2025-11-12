@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDbContext<BillingDbContext>(options => options.UseSqlite("Data Source=billing.db"));
 builder.Services.AddHttpClient("StockClient", client => client.BaseAddress = new Uri("http://localhost:5000/")).AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError().WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(2)));
 builder.Services.AddControllers().AddJsonOptions(options =>

@@ -35,9 +35,24 @@
 
   <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
 
+  <div class="summary-container" *ngIf="!loading && !error && resume.summary; else stateTemplate">
+    <h1>Invoice Summary</h1>
+    <p class="summary-text">{{ resume.summary }}</p>
+  </div>
+
+  <ng-template #stateTemplate>
+    <div class="loading" *ngIf="loading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <p>Generating summary...</p>
+    </div>
+
+    <div class="error" *ngIf="error">
+      <mat-icon color="warn">error</mat-icon>
+      <p>{{ error }}</p>
+    </div>
+  </ng-template>
 
   <div class="loading-spinner" *ngIf="loading">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
-
 </div>

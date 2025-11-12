@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { InvoiceService } from '../../../services/invoice.service';
 import { Invoice } from '../../../models/invoice.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, throwError } from 'rxjs';
 
 
 @Component({
@@ -19,10 +20,19 @@ export class InvoiceListComponent implements OnInit {
   invoices: Invoice[] = [];
   displayedColumns = ['number', 'status', 'actions'];
 
-  constructor(private readonly invoiceService: InvoiceService, private snackBar: MatSnackBar) {}
+  constructor(private readonly invoiceService: InvoiceService, private readonly snackBar: MatSnackBar, private readonly router: Router) {}
 
   ngOnInit(): void {
-    this.invoiceService.getAll().subscribe(invoices => this.invoices = invoices);
+    this.invoiceService.getAll()
+    .pipe(
+      catchError((error) => {
+        if (error.status === 0 || error.status >= 500) {
+          this.router.navigate(['/error/server-down']);
+        }
+        return throwError(() => error);
+      })
+    )
+    .subscribe(invoices => this.invoices = invoices);
   }
 
   cancelInvoice(id: string, status: string, number: number): void {

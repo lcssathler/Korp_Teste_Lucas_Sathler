@@ -77,14 +77,7 @@ export class InvoiceFormComponent implements OnInit {
       ],
     });
 
-    group
-      .get('productId')
-      ?.valueChanges.subscribe(() =>
-        group.get('quantity')?.updateValueAndValidity()
-      );
-    group
-      .get('quantity')
-      ?.valueChanges.subscribe(() =>
+    group.get('productId')?.valueChanges.subscribe(() =>
         group.get('quantity')?.updateValueAndValidity()
       );
 

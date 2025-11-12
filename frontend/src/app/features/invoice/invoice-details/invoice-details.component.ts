@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -7,13 +8,13 @@ import { InvoiceService } from '../../../services/invoice.service';
 import { ProductService } from '../../../services/product.service';
 import { Invoice } from '../../../models/invoice.model';
 import { Product } from '../../../models/product.model';
-import { finalize, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, catchError, finalize } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatIcon } from "@angular/material/icon";
 @Component({
   selector: 'app-invoice-detail',
   standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule, MatButtonModule, MatProgressSpinner, RouterLink],
+  imports: [CommonModule, MatProgressSpinnerModule, MatButtonModule, MatProgressSpinner, RouterLink, MatCardModule, MatIcon],
   templateUrl: './invoice-details.component.html',
   styleUrls: ['./invoice-details.component.scss']
 })
@@ -21,8 +22,13 @@ export class InvoiceDetailComponent implements OnInit {
   invoice: Invoice | null = null;
   products: Product[] = [];
   loading = true;
+  loadingSummary = false;
   printing = false;
   errorMsg = '';
+  resume: { summary: string} = {
+    summary: ''
+  };
+  error = '';
 
   constructor(private readonly route: ActivatedRoute, private readonly invoiceService: InvoiceService, private readonly productService: ProductService, private readonly snackBar: MatSnackBar) {}
 
@@ -57,7 +63,25 @@ export class InvoiceDetailComponent implements OnInit {
       if (!this.errorMsg) {
         this.invoice!.status = 'Closed';
         this.snackBar.open('Invoice printed', 'OK', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: 'success-snack' });
+        this.generateSummary();
         this.productService.getAll().subscribe();
+      }
+    });
+  }
+
+  generateSummary(): void {
+    this.loadingSummary = true;
+    this.invoiceService.getSummary(this.invoice!.id).subscribe({
+      next: (res) => {
+        console.log(`Summary recived from backend: ${res}`)
+        this.resume = res;
+        this.loadingSummary = false;
+        console.log(`Resume: ${this.resume.summary}`)
+      },
+      error: (err) => {
+        this.error = 'Error loading summary';
+        this.loading = false;
+        console.log(`Resume error: ${err}`);
       }
     });
   }

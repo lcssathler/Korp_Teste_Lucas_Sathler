@@ -26,7 +26,10 @@ export class InvoiceService {
   }
 
   cancel(id: string): Observable<void> {
-    console
-   return this.http.delete<void>(`${this.apiUrl}/${id}`);
-}
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getSummary(id: string): Observable<{ summary: string }> {
+    return this.http.get<{ summary: string }>(`${this.apiUrl}/${id}/summary`);
+  }
 }

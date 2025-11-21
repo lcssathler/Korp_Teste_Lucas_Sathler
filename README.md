@@ -59,7 +59,8 @@ Projeto desenvolvido para o teste técnico utilizando C# + Angular +SQLite
 ## Como Rodar o Projeto
 
 ### Pré-requisitos
-- .NET SDK 8+.
+- .NET SDK 9.
+- API key do Groq (crie uma em ```https://console.groq.com/keys```
 - Node.js 18+ e Angular CLI 17+ (`npm i -g @angular/cli`).
 - Git para clone.
 
@@ -76,6 +77,7 @@ dotnet run
 ```
 cd billing-service
 dotnet restore
+dotnet user-secrets set "GroqApiKey" "{sua_api_do_groq}"
 dotnet run
 ```
 - Acessa http://localhost:5001 (Swagger: /swagger).
